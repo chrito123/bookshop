@@ -10,6 +10,7 @@ public class BookPricingService {
 			return 0;
 		double price = 0d;
 		double discount = getDiscount(basket.keySet().size());
+		
 		for (String book : basket.keySet()) {
 			price += unitPriceBook * basket.get(book) * (1 - discount);
 		}

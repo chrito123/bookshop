@@ -27,4 +27,14 @@ public class BookPricingServiceTest {
 
 		assertEquals(0.0, price, "An empty basket should cost 0 EUR");
 	}
+	@Test
+	public void testBasketReturnsPriceForOneBook() {
+		Map<String, Integer> basket = new HashMap<>();
+		
+		basket.put("Clean Code", 1);
+
+		double price = bookingPricingService.calculatePrice(basket);
+
+		assertEquals(50.0, price, "An basket with 1 book should cost 50 EUR");
+	}
 }

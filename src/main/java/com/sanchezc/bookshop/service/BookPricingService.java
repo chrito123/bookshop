@@ -11,7 +11,7 @@ public class BookPricingService {
 		double price = 0d;
 
 		for (String book : basket.keySet()) {
-			price += unitPriceBook;
+			price += unitPriceBook * basket.get(book);
 		}
 		return price;
 	}

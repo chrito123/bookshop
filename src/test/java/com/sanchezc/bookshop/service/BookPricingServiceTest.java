@@ -120,5 +120,19 @@ public class BookPricingServiceTest {
 		assertEquals(237.5, price, "A basket with 5 different books and one similar book should cost 237,50 EUR");
 		
 	}
+	@Test
+	public void testComplexUseCaseBasketReturnsPrice() {
+		Map<String, Integer> basket = new HashMap<>();
 
+		basket.put("Clean Code", 2);
+		basket.put("The Clean Coder", 2);
+		basket.put("The Clean Architecture", 2);
+		basket.put("Test Driven Development", 1);
+		basket.put("Working with legacy code", 1);
+		
+		double price = bookingPricingService.calculatePrice(basket);
+
+		assertEquals(320, price, "A basket with 2 groups of 4 different books should cost 320 EUR");
+		
+	}
 }

@@ -1,6 +1,6 @@
 package com.sanchezc.bookshop.service;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +13,8 @@ public class BookPricingService {
 		double totalPrice = 0d;
 		double discount = 0d;
 
-
 		boolean hasGroups = true;
-		List<Integer> listOfGroups = new ArrayList<Integer>();
+		List<Integer> listOfGroups = new LinkedList<Integer>();
 		while (hasGroups) {
 			int uniqueBooksCounter = 0;
 			for (String book : basket.keySet()) {
@@ -32,6 +31,15 @@ public class BookPricingService {
 				listOfGroups.add(uniqueBooksCounter);
 			}
 		}
+
+		while (listOfGroups.contains(5) && listOfGroups.contains(3)) {
+
+			listOfGroups.add(4);
+			listOfGroups.add(4);
+			listOfGroups.remove(Integer.valueOf(5));
+            listOfGroups.remove(Integer.valueOf(3));
+		}
+
 		for (Integer group : listOfGroups) {
 			discount = getDiscount(group);
 			totalPrice += unitPriceBook * group * (1 - discount);

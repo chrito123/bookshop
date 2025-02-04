@@ -135,4 +135,5 @@ public class BookPricingServiceTest {
 		assertEquals(320, price, "A basket with 2 groups of 4 different books should cost 320 EUR");
 		
 	}
+
 }

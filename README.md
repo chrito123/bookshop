@@ -4,6 +4,11 @@
 
 The **Book Pricing API** is a Spring Boot-based web application designed to calculate the total price of a basket of books with discounts applied. The application is built with Java 21, uses Gradle as its build system, and leverages OpenAPI 3.0 for API documentation. It follows a TDD approach to ensure robust and maintainable code.
 
+## Project Goals
+
+- **Provide a REST API** to calculate a basket and get the best price.  
+- **Expose the API via Swagger** for easy testing and exploration.
+
 ## Features
 
 - **Calculate Price:**  
@@ -99,6 +104,6 @@ In case of errors, the API returns a standardized JSON error response. For examp
 ```
 
 
-## Contact
+## Credits
 
 For questions or feedback, please contact Sanchez Christian at christian.sanchezvillagomez@capgemini.com.

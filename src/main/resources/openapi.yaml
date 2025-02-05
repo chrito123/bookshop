@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Book Pricing API
-  version: "1.0.0"
+  version: "1.0"
   description: API for calculating the price of a basket of books with discounts.
 
 paths:
@@ -9,8 +9,7 @@ paths:
     post:
       summary: Calculate the price for a basket of books
       description: >
-        Calculates the total price for a basket of books. The basket is represented
-        as a ShoppingBasket that contains a map where each key is a book title and the value is the number of copies.
+        Calculates the total price for a basket of books. The basket is represented as a ShoppingBasket that contains a map where each key is a book title and the value is the number of copies.
       operationId: calculatePrice
       requestBody:
         description: A ShoppingBasket DTO containing the basket details.
@@ -20,11 +19,12 @@ paths:
             schema:
               $ref: '#/components/schemas/ShoppingBasket'
             example:
-              "Clean Code": 2
-              "The Clean Coder": 2
-              "Clean Architecture": 2
-              "Test Driven Development by Example": 1
-              "Working Effectively With Legacy Code": 1
+              basket:
+                "Clean Code": 2
+                "The Clean Coder": 2
+                "Clean Architecture": 2
+                "Test Driven Development by Example": 1
+                "Working Effectively With Legacy Code": 1
       responses:
         '200':
           description: The total calculated price for the basket.
@@ -35,7 +35,7 @@ paths:
                 format: double
               example: 320.0
         '400':
-          description: Bad Request - Invalid input data.
+          description: Forbidden Error.
           content:
             application/json:
               schema:
@@ -46,20 +46,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
 components:
   schemas:
     ShoppingBasket:
       type: object
       description: A shopping basket containing the list of books and their quantities.
       properties:
-        items:
+        basket:
           type: object
           description: A map where each key is a book title and each value is the number of copies.
           additionalProperties:
             type: integer
+            minimum: 0
       required:
-        - items
+      - basket
 
     ErrorResponse:
       type: object
@@ -78,6 +78,6 @@ components:
           description: Detailed error message.
           example: "The input data is invalid."
       required:
-        - status
-        - error
-        - message
+      - status
+      - error
+      - message

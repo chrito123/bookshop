@@ -5,8 +5,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service
 public class BookPricingService {
-	double unitPriceBook = 50;
+
+	private final double unitPriceBook;
+
+	@Autowired
+	public BookPricingService(@Value("${book.unit.price}") double unitPrice) {
+		this.unitPriceBook = unitPrice;
+	}
 
 	public double calculatePrice(Map<String, Integer> basket) {
 		if (basket == null || basket.isEmpty())
@@ -15,7 +26,7 @@ public class BookPricingService {
 		double discount = 0d;
 
 		List<Integer> notOptimizedGroup = getGroups(basket);
-		List<Integer> optimizedList = getOptimizedCroups(notOptimizedGroup);
+		List<Integer> optimizedList = getOptimizedGroups(notOptimizedGroup);
 
 		for (Integer group : optimizedList) {
 			discount = getDiscount(group);
@@ -25,7 +36,7 @@ public class BookPricingService {
 		return totalPrice;
 	}
 
-	private List<Integer> getOptimizedCroups(List<Integer> groupsToBeOptimized) {
+	private List<Integer> getOptimizedGroups(List<Integer> groupsToBeOptimized) {
 		List<Integer> optimizedGroups = new LinkedList<Integer>(groupsToBeOptimized);
 
 		while (optimizedGroups.contains(5) && optimizedGroups.contains(3)) {

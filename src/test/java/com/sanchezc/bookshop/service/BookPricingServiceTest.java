@@ -17,7 +17,7 @@ public class BookPricingServiceTest {
 	@Test
 	public void testEmptyBasketThrowEmptybasketException() {
 		Map<String, Integer> basket = new HashMap<>();
-
+		
 		assertThrows(EmptyBasketException.class, () -> bookPricingService.calculatePrice(basket));
 	}
 

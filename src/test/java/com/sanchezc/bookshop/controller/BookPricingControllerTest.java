@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sanchezc.bookshop.dto.ShoppingBasket;
 import com.sanchezc.bookshop.service.BookPricingService;
 
 @WebMvcTest(BookPricingController.class)
@@ -35,10 +36,12 @@ public class BookPricingControllerTest {
 		request.put("arch", 2);
 		request.put("test", 1);
 		request.put("working", 1);
+		ShoppingBasket basket = new ShoppingBasket(request);
+		System.out.println(mapper.writeValueAsString(basket));
 		when(bookPricingService.calculatePrice(request)).thenReturn(320.0);
 		mockClient
 				.perform(MockMvcRequestBuilders.post("/api/books/calculate-price")
-						.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(request)))
+						.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(basket)))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string("320.0"));
 	}

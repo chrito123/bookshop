@@ -1,23 +1,24 @@
 package com.sanchezc.bookshop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import com.sanchezc.bookshop.exception.EmptyBasketException;
+
 public class BookPricingServiceTest {
 
 	private BookPricingService bookPricingService = new BookPricingService(50);
 
 	@Test
-	public void testEmptyBasketReturnsZero() {
+	public void testEmptyBasketThrowEmptybasketException() {
 		Map<String, Integer> basket = new HashMap<>();
 
-		double price = bookPricingService.calculatePrice(basket);
-
-		assertEquals(0.0, price, "An empty basket should cost 0 EUR");
+		assertThrows(EmptyBasketException.class, () -> bookPricingService.calculatePrice(basket));
 	}
 
 	@Test

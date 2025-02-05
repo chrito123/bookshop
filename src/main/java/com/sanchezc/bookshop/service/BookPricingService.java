@@ -1,5 +1,6 @@
 package com.sanchezc.bookshop.service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +14,43 @@ public class BookPricingService {
 		double totalPrice = 0d;
 		double discount = 0d;
 
-		boolean hasGroups = true;
+		List<Integer> notOptimizedGroup = getGroups(basket);
+		List<Integer> optimizedList = getOptimizedCroups(notOptimizedGroup);
+
+		for (Integer group : optimizedList) {
+			discount = getDiscount(group);
+			totalPrice += unitPriceBook * group * (1 - discount);
+		}
+
+		return totalPrice;
+	}
+
+	private List<Integer> getOptimizedCroups(List<Integer> groupsToBeOptimized) {
+		List<Integer> optimizedGroups = new LinkedList<Integer>(groupsToBeOptimized);
+
+		while (optimizedGroups.contains(5) && optimizedGroups.contains(3)) {
+
+			optimizedGroups.add(4);
+			optimizedGroups.add(4);
+			optimizedGroups.remove(Integer.valueOf(5));
+			optimizedGroups.remove(Integer.valueOf(3));
+		}
+
+		return optimizedGroups;
+	}
+
+	private List<Integer> getGroups(Map<String, Integer> basket) {
+		Map<String, Integer> copyBasket = new HashMap<String, Integer>(basket);
 		List<Integer> listOfGroups = new LinkedList<Integer>();
+		boolean hasGroups = true;
+
 		while (hasGroups) {
 			int uniqueBooksCounter = 0;
-			for (String book : basket.keySet()) {
-				int numberOfSameBook = basket.get(book);
+			for (String book : copyBasket.keySet()) {
+				int numberOfSameBook = copyBasket.get(book);
 				if (numberOfSameBook >= 1) {
 					uniqueBooksCounter++;
-					basket.replace(book, numberOfSameBook - 1);
+					copyBasket.replace(book, numberOfSameBook - 1);
 				}
 
 			}
@@ -31,21 +60,7 @@ public class BookPricingService {
 				listOfGroups.add(uniqueBooksCounter);
 			}
 		}
-
-		while (listOfGroups.contains(5) && listOfGroups.contains(3)) {
-
-			listOfGroups.add(4);
-			listOfGroups.add(4);
-			listOfGroups.remove(Integer.valueOf(5));
-            listOfGroups.remove(Integer.valueOf(3));
-		}
-
-		for (Integer group : listOfGroups) {
-			discount = getDiscount(group);
-			totalPrice += unitPriceBook * group * (1 - discount);
-		}
-
-		return totalPrice;
+		return listOfGroups;
 	}
 
 	private double getDiscount(int uniqueBooks) {

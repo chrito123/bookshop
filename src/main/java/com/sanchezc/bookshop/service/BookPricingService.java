@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.sanchezc.bookshop.exception.EmptyBasketException;
+
 @Service
 public class BookPricingService {
 
@@ -20,8 +22,10 @@ public class BookPricingService {
 	}
 
 	public double calculatePrice(Map<String, Integer> basket) {
-		if (basket == null || basket.isEmpty())
-			return 0;
+		if (basket == null || basket.isEmpty()) {
+			throw new EmptyBasketException("Book basket is empty");
+		}
+			
 		double totalPrice = 0d;
 		double discount = 0d;
 
